@@ -29,16 +29,16 @@ GitHttp.prototype.removeRepo = function(httpPath) {
 };
 
 GitHttp.prototype.handle = function(req, res) {
+  var pathname = url.parse(req.url).pathname;
+  console.log('req', pathname);
   for (var i = 0; i < ROUTES.length; i++) {
-    var pathname = url.parse(req.url).pathname;
-    console.log('req', url.parse(req.url));
     var regex = new RegExp(ROUTES[i][2]);
     var match = pathname.match(regex);
     if (match) {
       console.log('matched route', pathname);
       var httpPath = match[1];
       if (this.repos[httpPath]) {
-        return this[ROUTES[i][1]](req, res, this.repos[httpPath]);
+        return this[ROUTES[i][1]](req, res, httpPath);
       }
     }
   }
@@ -54,7 +54,7 @@ GitHttp.prototype._uploadPack = function(req, res, gitHttpPath) {
     httpPath: gitHttpPath,
     fsPath: this.repos[gitHttpPath],
     allow: function() {
-      this.serviceRpc('upload-pack', req, res, this.repos[gitHttpPath]);
+      this.serviceRpc('upload-pack', req, res, gitHttpPath);
     }.bind(this),
     deny: function() {
       res.writeHead(403);
@@ -70,7 +70,7 @@ GitHttp.prototype._receivePack = function(req, res, gitHttpPath) {
     httpPath: gitHttpPath,
     fsPath: this.repos[gitHttpPath],
     allow: function() {
-      this.serviceRpc('receive-pack', req, res, this.repos[gitHttpPath]);
+      this.serviceRpc('receive-pack', req, res, gitHttpPath);
     }.bind(this),
     deny: function() {
       res.writeHead(403);
