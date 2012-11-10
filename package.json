@@ -1,0 +1,25 @@
+{
+  "name": "git-http",
+  "version": "0.0.0",
+  "description": "Git smart HTTP handler",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kunklejr/node-git-http.git"
+  },
+  "keywords": [
+    "git",
+    "http"
+  ],
+  "author": "Jeff Kunkle",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "mocha": "~1.7.0",
+    "mkdirp": "~0.3.4",
+    "rimraf": "~2.0.2"
+  }
+}
